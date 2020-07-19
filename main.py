@@ -1,6 +1,7 @@
 from search import search_ai
 from flask import Flask, jsonify, request
 import json
+from recommend import Filtering
 
 app = Flask(__name__)
 
@@ -31,5 +32,18 @@ def predict():
     }
     return jsonify(resp),200
 
+@app.route('/recommend')
+def recommendation() :
+    UserID = request.args.get('ID') # ตอนนำไปใช้งานจะใช้ ID ที่ USER ได้รับจริงตอนลงทะเบียน#
+    resp = {
+        "status" : 200,
+        "message" : "OK",
+        "data" : {
+            "recommend1" : Filtering(UserID, 0),
+            "recommend2" : Filtering(UserID, 1),
+            "recommend3" : Filtering(UserID, 2)
+        }
+    }
+    return jsonify(resp), 200
 if __name__ == '__main__':
-   app.run(host="0.0.0.0", port=8080, debug=True)
+   app.run(host="0.0.0.0",port = 8080, debug=True)

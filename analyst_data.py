@@ -1,11 +1,7 @@
 import pandas as pd 
 import numpy as np
-from connect_db import search_data
-
-# def data_ml():
-#     data = data_model()
-#     dataset = pd.DataFrame(data, columns=['RequestPositionID', 'JobFieldID', 'ResultID'])
-#     return dataset
+from connect_db import search_data, JobType, recommend
+import json
 
 def data_search() :
     data = search_data()
@@ -20,11 +16,13 @@ def data_search() :
     return J, JID
 
     ##### Function นี้คือ เตรียมข้อมูลเมื่อ ไม่มี ชุด Data Frame ใน Model ####
-def data_sim() :
-    data = search_data()
-    dataset = pd.DataFrame(data, columns=['RequestPosition', 'JobPositionID'])
-    JobPosition = dataset.RequestPosition
-    JobPositionID = dataset.JobPositionID
-    J = JobPosition.to_numpy()
-    JID = JobPositionID.to_numpy()
-    return J, JID
+
+def JobTypeID() :
+    data = JobType()
+    dataset = pd.DataFrame(data, columns=['JobPositionID', 'JobTypeID'])
+    return dataset
+
+def UserExperience(UserID) :
+    data = recommend(UserID)
+    dataset = pd.DataFrame(data, columns=['JobPositionID', 'LastSalary','ProvinceID'])
+    return dataset
